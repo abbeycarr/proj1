@@ -1,15 +1,17 @@
 #include <stdio.h>
 /*Need to have 6 different function prototypes:
 Need to decide on data types and arguments*/
-char encryptRotation();
-char decryptRotation();
-char encryptSubstitution();
-char decryptSubstitution();
-char decryptRotationText();
-char decryptSubstitutionText();
-
+char encryptRotation(char* message, int key);
+char decryptRotation(char* message, int key);
+//char encryptSubstitution();
+//char decryptSubstitution();
+//char decryptRotationText();
+//char decryptSubstitutionText();
 
 int main()  {
+char message[100];
+char newalphabet[100], alphabet[100];
+int key;    
 /* print a menu*/ 
 printf("Please select an option: \n");
 printf("a) Encrypt using rotation cipher \n");
@@ -22,45 +24,145 @@ printf("Selection: ");
 char option;
 scanf ("%c",&option);
 
-switch (c)  {
-    case 'a': encryptRotation(); break; 
-    case 'b': decryptRotation(); break;
-    case 'c': encryptSubstitution(); break;
-    case 'd': decryptSubstitution(); break;
-    case 'e': decryptRotationText(); break;
-    case 'f': decryptSubstitutionText(); break;
+switch (option)  {
+    case 'a': encryptRotation(message, key); break; 
+    case 'b': decryptRotation(message, key); break;
+   // case 'c': char encryptSubstitution(); break;
+   // case 'd': char decryptSubstitution(); break;
+   // case 'e': char decryptRotationText(); break;
+   // case 'f': char decryptSubstitutionText(); break;
     default: printf("Unknown option %c\n Please enter a, b, c or d\n");
 }
   return 0;
 }
+
 /*Need to include 6 different function definitions*/
-char encryptRotation()  {
+char encryptRotation(char* message, int key)  {
     /*Needs to read text from user
     Then allocate each character a different character using a rotation key
     Then the encypted message is printed*/
-   char text, encodedText;
-   int k;
-   printf("Enter text to be encrypted: \n");
-   scanf("%c", text);
-   printf("Enter the key integer: \n");
-   scanf("%d", k);
-   encodedText = (text + k)*(%26);
-   printf("The encoded text is: %c\n", encodedText);
+  char character;
+	int i;
+	
+	printf("Enter a message to encrypt: ");
+	scanf("%[^\n]*c",message);
+	printf("Enter key: ");
+	scanf("%d", &key);
+	
+	for(i = 0; message[i] != '\0'; ++i)     {
+		character = message[i];
+		
+		if(character >= 'a' && character <= 'z')    {
+			character = character + key;
+			
+			if(character > 'z'){
+				character = character - 'z' + 'a' - 1;
+			}
+			
+			message[i] = character;
+		}
+		else if(character >= 'A' && character <= 'Z')   {
+			character = character + key;
+			
+			if(character > 'Z')      {
+				character = character - 'Z' + 'A' - 1;
+			}
+			
+			message[i] = character;
+		}
+	}
+	
+	printf("Encrypted message: %s", message);
+	
+	return 0;
 }
-char decryptRotation()  {
+
+char decryptRotation(char* message, int key)  {
     /*Needs to read text from user
     Then determines the allocated character of each charcter read from the user using a rotation key
     The decoded text is then printed*/ 
+   	char character;
+	int i;
+	
+	printf("Enter a message to decrypt: ");
+	scanf("%[^\n]*c",message);
+	printf("Enter key: ");
+	scanf("%d", &key);
+	
+	for(i = 0; message[i] != '\0'; ++i)    {
+		character = message[i];
+		
+		if(character >= 'a' && character <= 'z'){
+			character = character - key;
+			
+			if(character < 'a'){
+				character = character + 'z' - 'a' + 1;
+			}
+			
+			message[i] = character;
+		}
+		else if(character >= 'A' && character <= 'Z'){
+			character = character - key;
+			
+			if(character < 'A')  {
+				character = character + 'Z' - 'A' + 1;
+			}
+			
+			message[i] = character;
+		}
+	}
+	
+	printf("Decrypted message: %s", message);
+	
+	return 0;
 }
-char encryptSubstitution()  {
+//this function does not yet work correctly
+char encryptSubstitution(char* message, char* newalphabet, char* alphabet)  {
     /* Completes the same task as case a) but uses a Substitution key */
+    char character;
+    int i;
+    printf("Enter a message to encrypt: \n");
+    scanf("%[^\n]*c", message);
+    printf("Enter the alphabet: \n");
+    scanf("%s", alphabet);
+    printf("Enter the new alphabet: \n");
+    scanf("%s", newalphabet);
+    
+    for(i = 0; message[i] != '\0'; ++i)     {
+		character = message[i];
+		
+		if(character >= 'a' && character <= 'z')    {
+		    alphabet[i] = newalphabet[i];
+		    character = newalphabet[i];
+			
+			if(character > 'z')     {
+				character = character - 'z' + 'a' - 1;
+			}
+			
+			message[i] = character;
+		}
+		else if(character >= 'A' && character <= 'Z')   {
+		    alphabet[i] = newalphabet[i];
+		    character = newalphabet[i];
+			
+			if(character > 'Z')     {
+				character = character - 'Z' + 'A' - 1;
+			}
+			
+			message[i] = character;
+		}
+	}
+	
+	printf("Encrypted message: %s", message);
+	
+	return 0;
 }
-char decryptSubstitution()  {
+//char decryptSubstitution()  {
     /* Completes the same task as case b) but uses a Substitution key */
-}
-char decryptRotationText()  {
+//}
+//char decryptRotationText()  {
     /*This completes the same task as case b) but the key isn't given */ 
-}
-char decryptSubstitutionText()  {
+//}
+//char decryptSubstitutionText()  {
     /*This completes the same task as case d) but the key isn't given*/
-}
+//} 
