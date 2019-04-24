@@ -3,14 +3,15 @@
 Need to decide on data types and arguments*/
 char encryptRotation(char* message, int key);
 char decryptRotation(char* message, int key);
-//char encryptSubstitution();
-//char decryptSubstitution();
+char encryptSubstitution(char* message, char* newalphabet, char* alphabet);
+char decryptSubstitution(char* message, char* newalphabet, char* alphabet);
 //char decryptRotationText();
 //char decryptSubstitutionText();
 
 int main()  {
 char message[100];
-char newalphabet[100], alphabet[100];
+char newalphabet[25];
+char alphabet[25]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 int key;    
 /* print a menu*/ 
 printf("Please select an option: \n");
@@ -116,50 +117,58 @@ char decryptRotation(char* message, int key)  {
 	
 	return 0;
 }
+
 //this function does not yet work correctly
 char encryptSubstitution(char* message, char* newalphabet, char* alphabet)  {
     /* Completes the same task as case a) but uses a Substitution key */
     char character;
-    int i;
-    printf("Enter a message to encrypt: \n");
+    int i, j;
+    
+    printf("Enter a message (in caps) to encrypt: \n");
     scanf("%[^\n]*c", message);
-    printf("Enter the alphabet: \n");
-    scanf("%s", alphabet);
     printf("Enter the new alphabet: \n");
     scanf("%s", newalphabet);
     
-    for(i = 0; message[i] != '\0'; ++i)     {
+    for(i = 0; message[i] != '\0'; i++)     {
 		character = message[i];
-		
-		if(character >= 'a' && character <= 'z')    {
-		    alphabet[i] = newalphabet[i];
-		    character = newalphabet[i];
-			
-			if(character > 'z')     {
-				character = character - 'z' + 'a' - 1;
-			}
-			
-			message[i] = character;
-		}
-		else if(character >= 'A' && character <= 'Z')   {
-		    alphabet[i] = newalphabet[i];
-		    character = newalphabet[i];
-			
-			if(character > 'Z')     {
-				character = character - 'Z' + 'A' - 1;
-			}
-			
-			message[i] = character;
-		}
+
+	for (j=0; j<= 25 ; j++)  {
+	    if (character==alphabet[j]) {
+	           character=newalphabet[j];
+	           message[i]= character;
+	           break;
+	    }
 	}
-	
-	printf("Encrypted message: %s", message);
-	
+    }
+    printf("Encrypted message: %s", message);
 	return 0;
 }
-//char decryptSubstitution()  {
+
+char decryptSubstitution(char* message, char* newalphabet, char* alphabet)  {
     /* Completes the same task as case b) but uses a Substitution key */
-//}
+      char character;
+    int i, j;
+    
+    printf("Enter a message (in caps) to decrypt: \n");
+    scanf("%[^\n]*c", message);
+    printf("Enter the new alphabet: \n");
+    scanf("%s", newalphabet);
+    
+    for(i = 0; message[i] != '\0'; i++)     {
+		character = message[i];
+
+	for (j=0; j<= 25 ; j++)  {
+	    if (character==newalphabet[j]) {
+	           character=alphabet[j];
+	           message[i]= character;
+	           break;
+	    }
+	}
+    }
+    printf("Decrypted message: %s", message);
+	return 0;
+}
+
 //char decryptRotationText()  {
     /*This completes the same task as case b) but the key isn't given */ 
 //}
