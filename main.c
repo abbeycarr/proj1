@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 /*The following 6 lines of code are function prototpes. 
-Each function completes one of the six required tasks for this project
-*/
+Each function completes one of the six required tasks for this project*/
+
 int encryptRotation(char* message,char character, int key, int i);
 int decryptRotation(char* message, char character, int key, int i);
 int encryptSubstitution(char* message, char* newalphabet, char* alphabet, char character, int i, int j);
@@ -32,7 +32,7 @@ printf("b) Decrypt using rotation cipher \n");
 printf("c) Encrypt using substitution cipher \n");
 printf("d) Decrypt using substitution cipher \n");
 printf("e) Decrypt using rotation cipher without known key\n");
-//printf("f) Decrypt using substitution cipher without known key\n");
+printf("f) Decrypt using substitution cipher without known key\n");
 printf("Selection: ");
 char option;
 scanf ("%c",&option);
@@ -45,7 +45,7 @@ switch (option)  {
     case 'd': decryptSubstitution(message, newalphabet, alphabet, character, i, j); break;
     case 'e': decryptRotationNoKey(message, character, key, i); break;
     case 'f': decryptSubstitutionNoKey(message, alphabet, newalphabet, character, i, j); break;
-    default: printf("Unknown option %c\n Please enter a, b, c or d\n", option);
+    default: printf("Unknown option: '%c'\nPlease enter a, b, c, d, e or f\n", option);
 }
   return 0;
 }
@@ -141,9 +141,9 @@ Limitations: the message must be 500 charcters or less */
 
 int encryptSubstitution(char* message, char* newalphabet, char* alphabet, char character, int i, int j)    {
     
-    printf("Enter a message to encrypt: \n");
+    printf("Enter a message to encrypt: ");
     scanf(" %[^\n]*c", message);//reads text from terminal and stores it in message[100]
-    printf("Enter the new alphabet (IN CAPS): \n");
+    printf("Enter the new alphabet (IN CAPS): ");
     scanf("%s", newalphabet);//reads text from terminal and stores it in newalphabet[26]
     
     for(i = 0; message[i] != '\0'; i++)     {
@@ -178,9 +178,9 @@ Limitations: the message must be 500 charcters or less.*/
 
 int decryptSubstitution(char* message, char* newalphabet, char* alphabet, char character, int i, int j)    {
     
-    printf("Enter a message to decrypt: \n");
+    printf("Enter a message to decrypt: ");
     scanf(" %[^\n]*c", message); //reads encrypted text from terminal and stores it in message[100]
-    printf("Enter the new alphabet (IN CAPS): \n");
+    printf("Enter the new alphabet (IN CAPS): ");
     scanf("%s", newalphabet); //reads string of letters from terminal and stores it in newalphabet[26]
     
     for(i = 0; message[i] != '\0'; i++)     {
@@ -235,12 +235,15 @@ int decryptRotationNoKey(char* message, char character, int key, int i)    {
 			message[i] = character; //each new character becomes an elememt in the message array
 		    }
     	}   
-	        printf("Key: %d Decrypted message: %s\n",key, message); //the decrypted message and corresponding key are printed to the terminal each iteration of the loop, i.e. 26 different messages will be printed on a new line
+	        printf("Key: %d Decrypted message: %s\n\n",key, message); //the decrypted message and corresponding key are printed to the terminal each iteration of the loop, i.e. 26 different messages will be printed on a new line
     }
-    	return 0;
+        printf("Scroll through the 25 keys to find the decrypted message\n");
+        return 0;
 }
 
-//Was unable to achieve this task
+//This task was not completed
 int decryptSubstitutionNoKey(char* message, char* alphabet, char* newalphabet, char character, int i, int j)    {
+    
+    printf("I was unable to achieve this task");
     return 0;
 }
