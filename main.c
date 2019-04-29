@@ -8,7 +8,7 @@ int decryptRotation(char* message, char character, int key, int i);
 int encryptSubstitution(char* message, char* newalphabet, char* alphabet, char character, int i, int j);
 int decryptSubstitution(char* message, char* newalphabet, char* alphabet, char character, int i, int j);
 int decryptRotationNoKey(char* message, char character, int key, int i);
-int decryptSubstitutionNoKey(char* message, char* alphabet, char* newalphabet, char character, int i, int j);
+int decryptSubstitutionNoKey(char* message, char character, int i);
 
 int main()  {
 /* The following 4 lines of code are declarations of the arguments used in the 6 functions.
@@ -17,7 +17,7 @@ int main()  {
 'key' is an integer variable.
 'i' and 'j' are integer varaibles that are used to represent array index/elements*/
 
-char message[500]; //if the message to be encrypted/decrypted is longer than 100 characters then the array length must be altered
+char message[500]; //if the message to be encrypted/decrypted is longer than 500 characters then the array length must be altered
 char newalphabet[26];
 char alphabet[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 char character=0;
@@ -44,7 +44,7 @@ switch (option)  {
     case 'c': encryptSubstitution(message, newalphabet, alphabet, character, i, j); break;
     case 'd': decryptSubstitution(message, newalphabet, alphabet, character, i, j); break;
     case 'e': decryptRotationNoKey(message, character, key, i); break;
-    case 'f': decryptSubstitutionNoKey(message, alphabet, newalphabet, character, i, j); break;
+    case 'f': decryptSubstitutionNoKey(message, character, i); break;
     default: printf("Unknown option: '%c'\nPlease enter a, b, c, d, e or f\n", option);
 }
   return 0;
@@ -64,12 +64,12 @@ Limitations: the message to be encrypted must have a maximum of 500 characters *
 int encryptRotation(char* message, char character, int key, int i)     {
 	
 	printf("Enter a message to encrypt: ");
-	scanf(" %[^\n]*c",message); //reads text (includig the space key) from terminal and stores it in message[100]
+	scanf(" %[^\n]*c",message); //reads text (includig the space key) from terminal and stores it in message[500]
     printf("Enter key: ");
 	scanf("%d", &key);//reads integer from terminal and stores it in key
 	
 	for(i = 0; message[i] != '\0'; ++i)     {
-		character = message[i]; // a single element from the array message[100] is assigned to the variable character
+		character = message[i]; // a single element from the array message[500] is assigned to the variable character
 		
 		if(character >= 'a' && character <= 'z')    {
 			character = character-32;
@@ -82,7 +82,7 @@ int encryptRotation(char* message, char character, int key, int i)     {
 				character = character - 'Z' + 'A' - 1;
 			} //this loops the end letters of the alphabet back to the start, e.g. if the key is 1 then 'z' would be shifted to the 'a' position
 			
-			message[i] = character; //the new characters become the elements in the array message[100]
+			message[i] = character; //the new characters become the elements in the array message[500]
 		}
 	}
 	
@@ -142,7 +142,7 @@ Limitations: the message must be 500 charcters or less */
 int encryptSubstitution(char* message, char* newalphabet, char* alphabet, char character, int i, int j)    {
     
     printf("Enter a message to encrypt: ");
-    scanf(" %[^\n]*c", message);//reads text from terminal and stores it in message[100]
+    scanf(" %[^\n]*c", message);//reads text from terminal and stores it in message[500]
     printf("Enter the new alphabet (IN CAPS): ");
     scanf("%s", newalphabet);//reads text from terminal and stores it in newalphabet[26]
     
@@ -170,7 +170,7 @@ int encryptSubstitution(char* message, char* newalphabet, char* alphabet, char c
 which involves decrypting text with a given new order alphabet.
 The 6 inputs are: message, alphabet, newalphabet, character, i and j.
 This function returns the integer 0.
-Encrypted text is read from terminal and stored in message [100].
+Encrypted text is read from terminal and stored in message [500].
 The new alphabet order is read from the terminal and stored in newalphabet[26].
 Each letter of the message is assigned its orginal letter dependent on the new order of the alphabet 
 and the decrypted message is printed to the terminal.
@@ -179,7 +179,7 @@ Limitations: the message must be 500 charcters or less.*/
 int decryptSubstitution(char* message, char* newalphabet, char* alphabet, char character, int i, int j)    {
     
     printf("Enter a message to decrypt: ");
-    scanf(" %[^\n]*c", message); //reads encrypted text from terminal and stores it in message[100]
+    scanf(" %[^\n]*c", message); //reads encrypted text from terminal and stores it in message[500]
     printf("Enter the new alphabet (IN CAPS): ");
     scanf("%s", newalphabet); //reads string of letters from terminal and stores it in newalphabet[26]
     
@@ -215,7 +215,7 @@ LImitations: the message must be 500 characters or less.*/
 int decryptRotationNoKey(char* message, char character, int key, int i)    {
 	
 	printf("Enter a message to decrypt: ");
-	scanf(" %[^\n]*c", message); //encrypted text is read from the terminal and stored in the array message[100]
+	scanf(" %[^\n]*c", message); //encrypted text is read from the terminal and stored in the array message[500]
 	
 	for(key =1; key<27; key++)  { //this loops allows every key from 1-26 to be tested
     	for(i = 0; message[i] != '\0'; ++i)    {
@@ -241,9 +241,46 @@ int decryptRotationNoKey(char* message, char character, int key, int i)    {
         return 0;
 }
 
-//This task was not completed
-int decryptSubstitutionNoKey(char* message, char* alphabet, char* newalphabet, char character, int i, int j)    {
+/*This function completes part of task 6 of the project: takes the first day encrypted message and partially decrypts it.
+It has 3 inputs: message, character and i.
+The function returns the integer zero.
+This function basically invloves a switch-case statement that replaces the encrypted letter with the decrypted letters.
+These decrypted letters where chosen by recognising common 1 letter, 2 letter and 3 letter words and entering them via trial and error.
+*/
+
+int decryptSubstitutionNoKey(char* message, char character, int i)    {
     
-    printf("I was unable to achieve this task");
+    printf("Enter the first day message to decrypt: \n");
+    scanf(" %[^\n]*c", message);
+    
+    for(i=0; message[i]!='\0'; i++)     {
+        character=message[i]; //each element of the message becomes 'character'
+        
+        switch(character)   { //this loop replaces the letters in the message with new letters 
+            case 'F': character='T'; break;
+            case 'B': character='E'; break;
+            case 'N': character='A'; break;
+            case 'R': character='D'; break;
+            case 'C': character='I'; break;
+            case 'J': character='S'; break;
+            case 'P': character='H'; break;
+            case 'K': character='N'; break;
+            case 'Y': character='O'; break;
+            case 'T': character='U'; break;
+            case 'Z': character='L'; break;
+            case 'I': character='P'; break;
+            case 'Q': character='G'; break;
+            case 'V': character='Y'; break;
+            case 'X': character='R'; break;
+            case 'E': character='U'; break;
+            case 'G': character='V'; break;
+            case 'M': character='N'; break;
+            case 'D': character='J'; break;
+            case 'O': character='M'; break;
+        }
+        
+        message[i]=character; //the new letters become elements in the new decrypted message
+    }
+    printf("Partially decrypted message: %s", message);
     return 0;
 }
